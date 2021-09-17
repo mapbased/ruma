@@ -1,13 +1,14 @@
 #[cfg(feature = "rand")]
 use crate::generate_localpart;
 
-opaque_identifier! {
-    /// A Matrix key ID.
-    ///
-    /// Device identifiers in Matrix are completely opaque character sequences. This type is
-    /// provided simply for its semantic value.
-    pub type DeviceId;
-}
+/// A Matrix key ID.
+///
+/// Device identifiers in Matrix are completely opaque character sequences. This type is
+/// provided simply for its semantic value.
+#[repr(transparent)]
+pub struct DeviceId(str);
+
+opaque_identifier!(DeviceId);
 
 impl DeviceId {
     /// Generates a random `DeviceId`, suitable for assignment to a new device.
