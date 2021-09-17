@@ -15,12 +15,12 @@ pub type PinnedEventsEvent = StateEvent<PinnedEventsEventContent>;
 #[ruma_event(type = "m.room.pinned_events", kind = State)]
 pub struct PinnedEventsEventContent {
     /// An ordered list of event IDs to pin.
-    pub pinned: Vec<EventId>,
+    pub pinned: Vec<Box<EventId>>,
 }
 
 impl PinnedEventsEventContent {
     /// Creates a new `PinnedEventsEventContent` with the given events.
-    pub fn new(pinned: Vec<EventId>) -> Self {
+    pub fn new(pinned: Vec<Box<EventId>>) -> Self {
         Self { pinned }
     }
 }

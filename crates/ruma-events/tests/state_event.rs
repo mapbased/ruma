@@ -39,7 +39,7 @@ fn serialize_aliases_with_prev_content() {
         content: AnyStateEventContent::RoomAliases(AliasesEventContent::new(vec![room_alias_id!(
             "#somewhere:localhost"
         )])),
-        event_id: event_id!("$h29iv0s8:example.com"),
+        event_id: event_id!("$h29iv0s8:example.com").to_owned(),
         origin_server_ts: MilliSecondsSinceUnixEpoch(uint!(1)),
         prev_content: Some(AnyStateEventContent::RoomAliases(AliasesEventContent::new(vec![
             room_alias_id!("#inner:localhost"),
@@ -62,7 +62,7 @@ fn serialize_aliases_without_prev_content() {
         content: AnyStateEventContent::RoomAliases(AliasesEventContent::new(vec![room_alias_id!(
             "#somewhere:localhost"
         )])),
-        event_id: event_id!("$h29iv0s8:example.com"),
+        event_id: event_id!("$h29iv0s8:example.com").to_owned(),
         origin_server_ts: MilliSecondsSinceUnixEpoch(uint!(1)),
         prev_content: None,
         room_id: room_id!("!roomid:room.com"),

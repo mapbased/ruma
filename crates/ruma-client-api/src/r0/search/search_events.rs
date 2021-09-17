@@ -409,7 +409,7 @@ pub struct ResultGroup {
 
     /// Which results are in this group.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub results: Vec<EventId>,
+    pub results: Vec<Box<EventId>>,
 }
 
 impl ResultGroup {

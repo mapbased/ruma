@@ -180,7 +180,7 @@ mod tests {
                 users_default: int!(0),
                 notifications: NotificationPowerLevels::default(),
             },
-            event_id: event_id!("$h29iv0s8:example.com"),
+            event_id: event_id!("$h29iv0s8:example.com").to_owned(),
             origin_server_ts: MilliSecondsSinceUnixEpoch(uint!(1)),
             prev_content: None,
             room_id: room_id!("!n8f893n9:example.com"),
@@ -223,7 +223,7 @@ mod tests {
                 users_default: int!(23),
                 notifications: assign!(NotificationPowerLevels::new(), { room: int!(23) }),
             },
-            event_id: event_id!("$h29iv0s8:example.com"),
+            event_id: event_id!("$h29iv0s8:example.com").to_owned(),
             origin_server_ts: MilliSecondsSinceUnixEpoch(uint!(1)),
             prev_content: Some(PowerLevelsEventContent {
                 // Make just one field different so we at least know they're two different objects.

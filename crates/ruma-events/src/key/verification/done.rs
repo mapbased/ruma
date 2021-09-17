@@ -57,7 +57,7 @@ mod tests {
 
     #[test]
     fn serialization() {
-        let event_id = event_id!("$1598361704261elfgc:localhost");
+        let event_id = event_id!("$1598361704261elfgc:localhost").to_owned();
 
         let json_data = json!({
             "m.relates_to": {
@@ -91,7 +91,7 @@ mod tests {
                 relates_to: Relation {
                     event_id
                 },
-            } if event_id == id
+            } if *event_id == *id
         );
     }
 }

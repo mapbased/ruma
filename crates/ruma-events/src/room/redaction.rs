@@ -15,10 +15,10 @@ pub struct RedactionEvent {
     pub content: RedactionEventContent,
 
     /// The ID of the event that was redacted.
-    pub redacts: EventId,
+    pub redacts: Box<EventId>,
 
     /// The globally unique event identifier for the user who sent the event.
-    pub event_id: EventId,
+    pub event_id: Box<EventId>,
 
     /// The fully-qualified ID of the user who sent this event.
     pub sender: UserId,
@@ -41,10 +41,10 @@ pub struct SyncRedactionEvent {
     pub content: RedactionEventContent,
 
     /// The ID of the event that was redacted.
-    pub redacts: EventId,
+    pub redacts: Box<EventId>,
 
     /// The globally unique event identifier for the user who sent the event.
-    pub event_id: EventId,
+    pub event_id: Box<EventId>,
 
     /// The fully-qualified ID of the user who sent this event.
     pub sender: UserId,
