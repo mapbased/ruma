@@ -4,7 +4,7 @@ use std::collections::BTreeMap;
 
 use ruma_api::ruma_api;
 use ruma_common::MilliSecondsSinceUnixEpoch;
-use ruma_identifiers::{ServerNameBox, ServerSigningKeyId};
+use ruma_identifiers::{ServerName, ServerSigningKeyId};
 use serde::{Deserialize, Serialize};
 
 use crate::discovery::ServerSigningKeys;
@@ -36,7 +36,7 @@ ruma_api! {
         /// notary server must return an empty server_keys array in the response.
         ///
         /// The notary server may return multiple keys regardless of the Key IDs given.
-        pub server_keys: BTreeMap<ServerNameBox, BTreeMap<ServerSigningKeyId, QueryCriteria>>,
+        pub server_keys: BTreeMap<Box<ServerName>, BTreeMap<ServerSigningKeyId, QueryCriteria>>,
 
     }
 
@@ -49,7 +49,7 @@ ruma_api! {
 impl Request {
     /// Creates a new `Request` with the given query criteria and `minimum_valid_until` timestamp.
     pub fn new(
-        server_keys: BTreeMap<ServerNameBox, BTreeMap<ServerSigningKeyId, QueryCriteria>>,
+        server_keys: BTreeMap<Box<ServerName>, BTreeMap<ServerSigningKeyId, QueryCriteria>>,
         minimum_valid_until_ts: MilliSecondsSinceUnixEpoch,
     ) -> Self {
         Self { server_keys, minimum_valid_until_ts }

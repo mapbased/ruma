@@ -1,7 +1,7 @@
 //! Types for the *m.room.name* event.
 
 use ruma_events_macros::EventContent;
-use ruma_identifiers::RoomNameBox;
+use ruma_identifiers::RoomName;
 use serde::{Deserialize, Serialize};
 
 use crate::StateEvent;
@@ -16,24 +16,24 @@ pub type NameEvent = StateEvent<NameEventContent>;
 pub struct NameEventContent {
     /// The name of the room.
     #[serde(default, deserialize_with = "ruma_serde::empty_string_as_none")]
-    pub name: Option<RoomNameBox>,
+    pub name: Option<Box<RoomName>>,
 }
 
 impl NameEventContent {
     /// Create a new `NameEventContent` with the given name.
-    pub fn new(name: Option<RoomNameBox>) -> Self {
+    pub fn new(name: Option<Box<RoomName>>) -> Self {
         Self { name }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use std::convert::TryFrom;
+    use std::convert::TryInto;
 
     use js_int::{int, uint};
     use matches::assert_matches;
     use ruma_common::MilliSecondsSinceUnixEpoch;
-    use ruma_identifiers::{event_id, room_id, user_id, RoomNameBox};
+    use ruma_identifiers::{event_id, room_id, user_id};
     use ruma_serde::Raw;
     use serde_json::{from_value as from_json_value, json, to_value as to_json_value};
 
@@ -43,7 +43,7 @@ mod tests {
     #[test]
     fn serialization_with_optional_fields_as_none() {
         let name_event = StateEvent {
-            content: NameEventContent { name: RoomNameBox::try_from("The room name").ok() },
+            content: NameEventContent { name: "The room name".try_into().ok() },
             event_id: event_id!("$h29iv0s8:example.com"),
             origin_server_ts: MilliSecondsSinceUnixEpoch(uint!(1)),
             prev_content: None,
@@ -72,12 +72,10 @@ mod tests {
     #[test]
     fn serialization_with_all_fields() {
         let name_event = StateEvent {
-            content: NameEventContent { name: RoomNameBox::try_from("The room name").ok() },
+            content: NameEventContent { name: "The room name".try_into().ok() },
             event_id: event_id!("$h29iv0s8:example.com"),
             origin_server_ts: MilliSecondsSinceUnixEpoch(uint!(1)),
-            prev_content: Some(NameEventContent {
-                name: RoomNameBox::try_from("The old name").ok(),
-            }),
+            prev_content: Some(NameEventContent { name: "The old name".try_into().ok() }),
             room_id: room_id!("!n8f893n9:example.com"),
             sender: user_id!("@carl:example.com"),
             state_key: "".into(),
@@ -148,10 +146,7 @@ mod tests {
 
     #[test]
     fn new_with_empty_name_creates_content_as_none() {
-        assert_matches!(
-            NameEventContent::new(RoomNameBox::try_from(String::new()).ok()),
-            NameEventContent { name: None }
-        );
+        assert_matches!(NameEventContent::new("".try_into().ok()), NameEventContent { name: None });
     }
 
     #[test]
@@ -204,7 +199,7 @@ mod tests {
 
     #[test]
     fn nonempty_field_as_some() {
-        let name = RoomNameBox::try_from("The room name").ok();
+        let name = "The room name".try_into().ok();
         let json_data = json!({
             "content": {
                 "name": "The room name"

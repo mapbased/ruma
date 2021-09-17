@@ -1,7 +1,7 @@
 //! Types for the *m.space.child* event.
 
 use ruma_events_macros::EventContent;
-use ruma_identifiers::ServerNameBox;
+use ruma_identifiers::ServerName;
 use serde::{Deserialize, Serialize};
 
 use crate::StateEvent;
@@ -20,7 +20,7 @@ pub type ParentEvent = StateEvent<ParentEventContent>;
 pub struct ParentEventContent {
     /// List of candidate servers that can be used to join the room.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub via: Option<Vec<ServerNameBox>>,
+    pub via: Option<Vec<Box<ServerName>>>,
 
     /// Determines whether this is the main parent for the space.
     ///

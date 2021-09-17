@@ -3,7 +3,7 @@
 use std::collections::BTreeMap;
 
 use ruma_events_macros::EventContent;
-use ruma_identifiers::DeviceIdBox;
+use ruma_identifiers::DeviceId;
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
 
@@ -26,7 +26,7 @@ pub type StartEvent = MessageEvent<StartEventContent>;
 #[ruma_event(type = "m.key.verification.start", kind = ToDevice)]
 pub struct StartToDeviceEventContent {
     /// The device ID which is initiating the process.
-    pub from_device: DeviceIdBox,
+    pub from_device: Box<DeviceId>,
 
     /// An opaque identifier for the verification process.
     ///
@@ -43,7 +43,7 @@ pub struct StartToDeviceEventContent {
 impl StartToDeviceEventContent {
     /// Creates a new `StartToDeviceEventContent` with the given device ID, transaction ID and
     /// method specific content.
-    pub fn new(from_device: DeviceIdBox, transaction_id: String, method: StartMethod) -> Self {
+    pub fn new(from_device: Box<DeviceId>, transaction_id: String, method: StartMethod) -> Self {
         Self { from_device, transaction_id, method }
     }
 }
@@ -56,7 +56,7 @@ impl StartToDeviceEventContent {
 #[ruma_event(type = "m.key.verification.start", kind = Message)]
 pub struct StartEventContent {
     /// The device ID which is initiating the process.
-    pub from_device: DeviceIdBox,
+    pub from_device: Box<DeviceId>,
 
     /// Method specific content.
     #[serde(flatten)]
@@ -70,7 +70,7 @@ pub struct StartEventContent {
 #[cfg(feature = "unstable-pre-spec")]
 impl StartEventContent {
     /// Creates a new `StartEventContent` with the given device ID, method and relation.
-    pub fn new(from_device: DeviceIdBox, method: StartMethod, relates_to: Relation) -> Self {
+    pub fn new(from_device: Box<DeviceId>, method: StartMethod, relates_to: Relation) -> Self {
         Self { from_device, method, relates_to }
     }
 }

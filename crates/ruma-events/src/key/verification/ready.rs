@@ -1,7 +1,7 @@
 //! Types for the *m.key.verification.ready* event.
 
 use ruma_events_macros::EventContent;
-use ruma_identifiers::DeviceIdBox;
+use ruma_identifiers::DeviceId;
 use serde::{Deserialize, Serialize};
 
 use super::{Relation, VerificationMethod};
@@ -16,7 +16,7 @@ pub type ReadyEvent = MessageEvent<ReadyEventContent>;
 #[ruma_event(type = "m.key.verification.ready", kind = ToDevice)]
 pub struct ReadyToDeviceEventContent {
     /// The device ID which is initiating the request.
-    pub from_device: DeviceIdBox,
+    pub from_device: Box<DeviceId>,
 
     /// The verification methods supported by the sender.
     pub methods: Vec<VerificationMethod>,
@@ -33,7 +33,7 @@ impl ReadyToDeviceEventContent {
     /// Creates a new `ReadyToDeviceEventContent` with the given device ID, verification methods and
     /// transaction ID.
     pub fn new(
-        from_device: DeviceIdBox,
+        from_device: Box<DeviceId>,
         methods: Vec<VerificationMethod>,
         transaction_id: String,
     ) -> Self {
@@ -47,7 +47,7 @@ impl ReadyToDeviceEventContent {
 #[ruma_event(type = "m.key.verification.ready", kind = Message)]
 pub struct ReadyEventContent {
     /// The device ID which is initiating the request.
-    pub from_device: DeviceIdBox,
+    pub from_device: Box<DeviceId>,
 
     /// The verification methods supported by the sender.
     pub methods: Vec<VerificationMethod>,
@@ -61,7 +61,7 @@ pub struct ReadyEventContent {
 impl ReadyEventContent {
     /// Creates a new `ReadyEventContent` with the given device ID, methods and relation.
     pub fn new(
-        from_device: DeviceIdBox,
+        from_device: Box<DeviceId>,
         methods: Vec<VerificationMethod>,
         relates_to: Relation,
     ) -> Self {
@@ -72,7 +72,7 @@ impl ReadyEventContent {
 #[cfg(test)]
 mod tests {
     use matches::assert_matches;
-    use ruma_identifiers::{event_id, DeviceIdBox};
+    use ruma_identifiers::{event_id, DeviceId};
     use ruma_serde::Raw;
     use serde_json::{from_value as from_json_value, json, to_value as to_json_value};
 
@@ -82,7 +82,7 @@ mod tests {
     #[test]
     fn serialization() {
         let event_id = event_id!("$1598361704261elfgc:localhost");
-        let device: DeviceIdBox = "123".into();
+        let device: Box<DeviceId> = "123".into();
 
         let json_data = json!({
             "from_device": device,
@@ -119,7 +119,7 @@ mod tests {
     #[test]
     fn deserialization() {
         let id = event_id!("$1598361704261elfgc:localhost");
-        let device: DeviceIdBox = "123".into();
+        let device: Box<DeviceId> = "123".into();
 
         let json_data = json!({
             "from_device": device,
