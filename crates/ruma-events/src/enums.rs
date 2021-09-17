@@ -63,7 +63,6 @@ event_enum! {
         "m.sticker",
     }
 
-
     /// Any state event.
     enum State {
         "m.policy.rule.room",

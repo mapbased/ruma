@@ -181,7 +181,7 @@ pub struct IdentityProvider {
     name: String,
 
     /// The icon for the provider.
-    icon: Option<MxcUri>,
+    icon: Option<Box<MxcUri>>,
 
     /// The brand identifier for the provider.
     brand: Option<IdentityProviderBrand>,
@@ -341,7 +341,7 @@ mod tests {
                 brand: Some(IdentityProviderBrand::GitLab),
             }) if id == "oidc-gitlab"
                 && name == "GitLab"
-                && icon.to_string() == "mxc://localhost/gitlab-icon"
+                && icon == "mxc://localhost/gitlab-icon"
         );
     }
 

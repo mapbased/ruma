@@ -54,7 +54,7 @@ pub struct ImageInfo {
 
     /// The URL to the thumbnail of the image. Only present if the thumbnail is unencrypted.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumbnail_url: Option<MxcUri>,
+    pub thumbnail_url: Option<Box<MxcUri>>,
 
     /// Information on the encrypted thumbnail image. Only present if the thumbnail is encrypted.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -114,7 +114,7 @@ impl ThumbnailInfo {
 #[cfg_attr(not(feature = "unstable-exhaustive-types"), non_exhaustive)]
 pub struct EncryptedFile {
     /// The URL to the file.
-    pub url: MxcUri,
+    pub url: Box<MxcUri>,
 
     /// A [JSON Web Key](https://tools.ietf.org/html/rfc7517#appendix-A.3) object.
     pub key: JsonWebKey,
@@ -138,7 +138,7 @@ pub struct EncryptedFile {
 #[allow(clippy::exhaustive_structs)]
 pub struct EncryptedFileInit {
     /// The URL to the file.
-    pub url: MxcUri,
+    pub url: Box<MxcUri>,
 
     /// A [JSON Web Key](https://tools.ietf.org/html/rfc7517#appendix-A.3) object.
     pub key: JsonWebKey,

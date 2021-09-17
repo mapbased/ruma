@@ -40,7 +40,7 @@ ruma_api! {
 
     response: {
         /// The MXC URI for the uploaded content.
-        pub content_uri: MxcUri,
+        pub content_uri: Box<MxcUri>,
 
         /// The [BlurHash](https://blurha.sh) for the uploaded content.
         ///
@@ -71,7 +71,7 @@ impl<'a> Request<'a> {
 
 impl Response {
     /// Creates a new `Response` with the given MXC URI.
-    pub fn new(content_uri: MxcUri) -> Self {
+    pub fn new(content_uri: Box<MxcUri>) -> Self {
         Self {
             content_uri,
             #[cfg(feature = "unstable-pre-spec")]

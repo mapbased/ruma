@@ -38,7 +38,7 @@ fn serialization() {
     let ev = MessageEvent {
         content: MessageEventContent::new(MessageType::Audio(AudioMessageEventContent::plain(
             "test".into(),
-            mxc_uri!("mxc://example.org/ffed755USFFxlgbQYZGtryd"),
+            mxc_uri!("mxc://example.org/ffed755USFFxlgbQYZGtryd").to_owned(),
             None,
         ))),
         event_id: event_id!("$143273582443PhrSn:example.org").to_owned(),
@@ -70,7 +70,7 @@ fn content_serialization() {
     let message_event_content =
         MessageEventContent::new(MessageType::Audio(AudioMessageEventContent::plain(
             "test".into(),
-            mxc_uri!("mxc://example.org/ffed755USFFxlgbQYZGtryd"),
+            mxc_uri!("mxc://example.org/ffed755USFFxlgbQYZGtryd").to_owned(),
             None,
         )));
 
@@ -384,7 +384,7 @@ fn content_deserialization() {
                 ..
             }),
             ..
-        } if body == "test" && url.to_string() == "mxc://example.org/ffed755USFFxlgbQYZGtryd"
+        } if body == "test" && url == "mxc://example.org/ffed755USFFxlgbQYZGtryd"
     );
 }
 

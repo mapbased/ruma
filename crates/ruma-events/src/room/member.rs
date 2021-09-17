@@ -50,7 +50,7 @@ pub struct MemberEventContent {
         feature = "compat",
         serde(default, deserialize_with = "ruma_serde::empty_string_as_none")
     )]
-    pub avatar_url: Option<MxcUri>,
+    pub avatar_url: Option<Box<MxcUri>>,
 
     /// The display name for this user, if any. This is added by the homeserver.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -495,7 +495,7 @@ mod tests {
                 state_key,
                 unsigned,
                 prev_content: None,
-            } if avatar_url.to_string() == "mxc://example.org/SEsfnsuifSDFSSEF"
+            } if avatar_url == "mxc://example.org/SEsfnsuifSDFSSEF"
                 && displayname == "Alice Margatroid"
                 && third_party_displayname == "alice"
                 && mxid == "@alice:example.org"
@@ -583,7 +583,7 @@ mod tests {
                 && sender == "@alice:example.org"
                 && state_key == "@alice:example.org"
                 && unsigned.is_empty()
-                && avatar_url.to_string() == "mxc://example.org/SEsfnsuifSDFSSEF"
+                && avatar_url == "mxc://example.org/SEsfnsuifSDFSSEF"
                 && displayname == "Alice Margatroid"
                 && third_party_displayname == "alice"
                 && mxid == "@alice:example.org"
