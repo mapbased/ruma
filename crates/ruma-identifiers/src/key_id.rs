@@ -4,18 +4,16 @@ use std::{
     fmt,
     hash::{Hash, Hasher},
     marker::PhantomData,
-    num::NonZeroU8,
     str::FromStr,
 };
 
 use crate::{crypto_algorithms::SigningKeyAlgorithm, DeviceId, KeyName};
 
-/// A key algorithm and key name delimited by a colon
-pub struct KeyId<A, K: ?Sized> {
-    full_id: Box<str>,
-    colon_idx: NonZeroU8,
-    _phantom: PhantomData<(A, K)>,
-}
+/// A key algorithm and key name delimited by a colon.
+#[repr(transparent)]
+pub struct KeyId<A, K: ?Sized>(str, PhantomData<(A, K)>);
+
+//opaque_identifier_validated!(KeyId, ruma_identifiers_validation::key_id::validate);
 
 impl<A, K: ?Sized> KeyId<A, K> {
     /// Creates a new `KeyId` from an algorithm and key name.
@@ -32,11 +30,7 @@ impl<A, K: ?Sized> KeyId<A, K> {
         res.push(':');
         res.push_str(key_name);
 
-        let colon_idx =
-            NonZeroU8::new(algorithm.len().try_into().expect("no algorithm name len > 255"))
-                .expect("no empty algorithm name");
-
-        KeyId { full_id: res.into(), colon_idx, _phantom: PhantomData }
+        Self::from_owned(res.into())
     }
 
     /// Returns key algorithm of the key ID.

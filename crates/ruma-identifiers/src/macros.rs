@@ -92,32 +92,6 @@ macro_rules! common_impls {
                     self.full_id.as_bytes()
                 }
             }
-
-            doc_concat! {
-                #[doc = concat!("Converts this `", stringify!($id), "` into a `String`")]
-                pub fn into_string(self) -> String {
-                    self.full_id.into()
-                }
-            }
-
-            doc_concat! {
-                #[doc = concat!("Converts this `", stringify!($id), "` into a `Vec<u8>`")]
-                pub fn into_bytes(self) -> Vec<u8> {
-                    Box::<[u8]>::from(self.full_id).into()
-                }
-            }
-        }
-
-        impl From<$id> for String {
-            fn from(id: $id) -> Self {
-                id.into_string()
-            }
-        }
-
-        impl From<$id> for Vec<u8> {
-            fn from(id: $id) -> Self {
-                id.into_bytes()
-            }
         }
 
         impl std::str::FromStr for $id {
